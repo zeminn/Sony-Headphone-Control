@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.22000.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PlatformTarget>x64</PlatformTarget>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- The manifest sets process DPI before WPF creates an HWND. WinForms supplies only the tray. -->
+    <NoWarn>$(NoWarn);WFO0003</NoWarn>
+    <SonyClang Condition="'$(SonyClang)' == ''">$(MSBuildProjectDirectory)\..\..\.tools\llvm-mingw-20261104-ucrt-x86_64\bin\clang++.exe</SonyClang>
+    <SonyNativeOutput>$(MSBuildProjectDirectory)\obj\$(Configuration)\native\SonyTransport.dll</SonyNativeOutput>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MicaWPF" Version="6.3.2" />
+    <PackageReference Include="unchihugo.WPF-UI" Version="4.4.2" />
+    <NativeSource Include="Native\**\*.cpp" />
+    <NativeHeader Include="Native\**\*.h" />
+    <Resource Include="Resources\Fonts\*.otf" />
+    <None Include="$(SonyNativeOutput)" Link="SonyTransport.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\LICENSE" Link="licenses\FluentFlyout.txt" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <None Update="Native\Upstream\LICENSE" Link="licenses\SonyHeadphonesClient.txt" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <None Update="Resources\Fonts\OFL.txt" Link="licenses\NotoSansSC-OFL.txt" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <None Update="使用说明.txt" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+  </ItemGroup>
+  <Target Name="BuildSonyTransport" BeforeTargets="PrepareForBuild"
+          Condition="'$(DesignTimeBuild)' != 'true'"
+          Inputs="$(MSBuildProjectFullPath);@(NativeSource);@(NativeHeader);$(SonyClang)" Outputs="$(SonyNativeOutput)">
+    <Error Condition="!Exists('$(SonyClang)')" Text="Install LLVM-MinGW x64 or set SonyClang to its clang++.exe path." />
+    <MakeDir Directories="$([System.IO.Path]::GetDirectoryName('$(SonyNativeOutput)'))" />
+    <Exec Command="&quot;$(SonyClang)&quot; --target=x86_64-w64-windows-gnu -std=c++20 -fsigned-char -O2 -shared -static @(NativeSource->'&quot;%(FullPath)&quot;', ' ') -lws2_32 -lbthprops -o &quot;$(SonyNativeOutput)&quot;" />
+  </Target>
+</Project>

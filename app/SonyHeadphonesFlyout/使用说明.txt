@@ -1,0 +1,20 @@
+Sony 耳机浮窗 · Windows 11 x64
+
+使用
+  解压整个 ZIP，然后打开文件夹中的 SonyHeadphonesFlyout.exe。
+  程序内置 .NET 运行时，解压后可直接运行。
+  程序启动后，在任务栏右下角左键单击蓝色耳机图标。
+  图标可能收在 ^ 的隐藏图标菜单中。右键耳机图标可退出程序。
+  列表包含 Windows 已配对或已连接的 Sony 耳机。
+  只有一台且已连接时会直达控制面板，其余情况可在列表手动选择。
+  控制面板左上角的返回箭头可切换设备。
+  一级浮窗的刷新按钮在标题栏。
+  点击环境声模式、聚焦人声或 VPT 预设后直接发送，环境声档位可调 0–19。
+  VPT 开关开启时选中竞技场，关闭时退出虚拟环绕。
+  每副耳机会记住上次收到应答的设置，重新打开窗口会恢复高亮。
+  设置保存在当前 Windows 用户的 %LOCALAPPDATA%\SonyHeadphonesFlyout 中。
+
+兼容性
+  控制使用 SonyHeadphonesClient v1.3.2 的经典蓝牙 RFCOMM 协议。
+  不同 Sony 型号对协议和 VPT 的支持有差异。界面以高亮显示已选择的选项。
+  本应用基于 FluentFlyout 和 SonyHeadphonesClient，许可见 licenses 文件夹。

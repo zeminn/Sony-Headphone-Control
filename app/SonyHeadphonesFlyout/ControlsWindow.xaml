@@ -1,0 +1,91 @@
+<local:FlyoutWindow x:Class="SonyHeadphonesFlyout.ControlsWindow" x:ClassModifier="internal"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                    xmlns:local="clr-namespace:SonyHeadphonesFlyout"
+                    Title="Sony 耳机 · 控制">
+    <ContentControl Template="{StaticResource CoverGlowSurface}" Focusable="False">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="18">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ui:Button Appearance="Transparent" Icon="{ui:SymbolIcon ChevronLeft24}" Width="28" Height="32" Padding="0"
+                               Margin="-5,0,5,0" AutomationProperties.Name="返回设备列表" ToolTip="设备列表" Click="BackClick" />
+                    <Border Grid.Column="1" Width="44" Height="44" CornerRadius="10" Background="{DynamicResource AccentFillColorDefaultBrush}"
+                            VerticalAlignment="Top" Margin="0,0,12,0">
+                        <ui:SymbolIcon Symbol="Headphones24" FontSize="23" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                        <TextBlock x:Name="DeviceName" Style="{StaticResource FlyoutTitle}" TextTrimming="CharacterEllipsis" />
+                        <TextBlock x:Name="ConnectionText" Text="正在连接控制通道…" Style="{StaticResource SecondaryText}" Margin="0,2,0,0" />
+                    </StackPanel>
+                    <ui:Button Grid.Column="3" Appearance="Transparent" Icon="{ui:SymbolIcon Dismiss24}" VerticalAlignment="Top"
+                               Width="32" Height="32" Padding="0" AutomationProperties.Name="关闭浮窗" ToolTip="关闭" Click="CloseClick" />
+                </Grid>
+
+                <Border x:Name="ConnectionCard" Style="{StaticResource Card}" Margin="0,14,0,0" Visibility="Collapsed">
+                    <StackPanel>
+                        <TextBlock x:Name="ConnectionDetails" Style="{StaticResource SecondaryText}" />
+                        <ui:Button x:Name="RetryButton" Content="重新连接" Icon="{ui:SymbolIcon ArrowClockwise24}"
+                                   Margin="0,8,0,0" Visibility="Collapsed" Click="RetryClick" />
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}" Margin="0,12,0,0">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,10">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:SymbolIcon Symbol="SoundWaveCircle24" FontSize="17" Margin="0,0,7,0" />
+                                <TextBlock Text="环境声控制" Style="{StaticResource SectionTitle}" />
+                            </StackPanel>
+                        </Grid>
+                        <StackPanel x:Name="AmbientInput" IsEnabled="False">
+                            <UniformGrid x:Name="AmbientModes" Columns="3" Margin="0,0,-5,0">
+                                <RadioButton Content="降噪" Style="{StaticResource Choice}" GroupName="Ambient" Tag="0" Checked="AmbientSelected" />
+                                <RadioButton Content="环境声" Style="{StaticResource Choice}" GroupName="Ambient" Tag="1" Checked="AmbientSelected" />
+                                <RadioButton Content="关闭" Style="{StaticResource Choice}" GroupName="Ambient" Tag="2" Checked="AmbientSelected" />
+                            </UniformGrid>
+                            <StackPanel x:Name="AmbientDetails" Visibility="Collapsed" Margin="0,8,0,4">
+                                <Grid>
+                                    <TextBlock Text="环境声级别" Style="{StaticResource SecondaryText}" />
+                                    <TextBlock x:Name="LevelText" HorizontalAlignment="Right" Style="{StaticResource SecondaryText}" />
+                                </Grid>
+                                <Slider x:Name="Level" Minimum="0" Maximum="19" Value="12" TickFrequency="1"
+                                        SmallChange="1" LargeChange="3" IsSnapToTickEnabled="True" IsMoveToPointEnabled="True"
+                                        AutoToolTipPlacement="TopLeft"
+                                        AutomationProperties.Name="环境声级别" Margin="0,4,0,4" ValueChanged="LevelChanged" />
+                                <CheckBox x:Name="VoiceFocus" Content="聚焦人声" Margin="0,3,0,3" Checked="VoiceFocusChanged" Unchecked="VoiceFocusChanged" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}" Margin="0,10,0,0">
+                    <StackPanel>
+                        <DockPanel Margin="0,0,0,10">
+                            <ui:ToggleSwitch x:Name="VptToggle" DockPanel.Dock="Right" IsEnabled="False"
+                                             OffContent="激活" OnContent="已激活" AutomationProperties.Name="激活 VPT 虚拟环绕"
+                                             Checked="VptActivationChanged" Unchecked="VptActivationChanged" />
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Speaker224" FontSize="17" Margin="0,0,7,0" />
+                                <TextBlock Text="VPT 虚拟环绕" Style="{StaticResource SectionTitle}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <UniformGrid x:Name="VptInput" Columns="2" Margin="0,0,-5,0" IsEnabled="False">
+                            <RadioButton Content="户外音乐节" Style="{StaticResource Choice}" GroupName="Vpt" Tag="1" Checked="VptSelected" />
+                            <RadioButton Content="竞技场" Style="{StaticResource Choice}" GroupName="Vpt" Tag="2" Checked="VptSelected" />
+                            <RadioButton Content="音乐厅" Style="{StaticResource Choice}" GroupName="Vpt" Tag="3" Checked="VptSelected" />
+                            <RadioButton Content="俱乐部" Style="{StaticResource Choice}" GroupName="Vpt" Tag="4" Checked="VptSelected" />
+                        </UniformGrid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </ContentControl>
+</local:FlyoutWindow>
