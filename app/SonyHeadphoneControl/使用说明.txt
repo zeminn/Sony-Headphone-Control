@@ -1,7 +1,7 @@
-Sony 耳机浮窗 · Windows 11 x64
+Sony Headphone Control · Windows 11 x64
 
 使用
-  解压整个 ZIP，然后打开文件夹中的 SonyHeadphonesFlyout.exe。
+  解压整个 ZIP，然后打开文件夹中的 Sony Headphone Control.exe。
   程序内置 .NET 运行时，解压后可直接运行。
   程序启动后，在任务栏右下角左键单击蓝色耳机图标。
   图标可能收在 ^ 的隐藏图标菜单中。右键耳机图标可退出程序。

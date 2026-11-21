@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace SonyHeadphonesFlyout;
+namespace SonyHeadphoneControl;
 
 internal partial class DevicesWindow : FlyoutWindow
 {

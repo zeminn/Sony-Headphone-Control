@@ -1,9 +1,9 @@
-<local:FlyoutWindow x:Class="SonyHeadphonesFlyout.ControlsWindow" x:ClassModifier="internal"
+<local:FlyoutWindow x:Class="SonyHeadphoneControl.ControlsWindow" x:ClassModifier="internal"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-                    xmlns:local="clr-namespace:SonyHeadphonesFlyout"
-                    Title="Sony 耳机 · 控制">
+                    xmlns:local="clr-namespace:SonyHeadphoneControl"
+                    Title="Sony Headphone Control · 控制">
     <ContentControl Template="{StaticResource CoverGlowSurface}" Focusable="False">
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <StackPanel Margin="18">

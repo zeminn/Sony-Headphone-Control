@@ -2,13 +2,11 @@
 
 using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using Forms = System.Windows.Forms;
 
-namespace SonyHeadphonesFlyout;
+namespace SonyHeadphoneControl;
 
 internal sealed class FlyoutController : IDisposable
 {
@@ -30,7 +28,7 @@ internal sealed class FlyoutController : IDisposable
     {
         _headphones = headphones;
         _menu.Font = _menuFont;
-        _menu.Items.Add("打开 Sony 耳机", null, (_, _) => ShowFromTray());
+        _menu.Items.Add("打开 Sony Headphone Control", null, (_, _) => ShowFromTray());
         _menu.Items.Add("退出", null, (_, _) => Application.Current.Shutdown());
         _tray = new Forms.NotifyIcon
         {
@@ -92,7 +90,10 @@ internal sealed class FlyoutController : IDisposable
         _window = window;
         window.Closed += (_, _) =>
         {
-            if (ReferenceEquals(window, _window)) _window = null;
+            if (!ReferenceEquals(window, _window)) return;
+            _window = null;
+            ++_openRequest;
+            _opening = false;
         };
         window.Deactivated += DismissOnDeactivation;
         window.ShowNearTray(_workArea);
@@ -100,7 +101,7 @@ internal sealed class FlyoutController : IDisposable
 
     private void DismissOnDeactivation(object? sender, EventArgs e)
     {
-        if (!ReferenceEquals(sender, _window)) return;
+        if (sender is not FlyoutWindow window || !ReferenceEquals(window, _window) || window.IsClosing) return;
         _lastDeactivation = Environment.TickCount64;
         _deactivationCursor = Forms.Cursor.Position;
         CloseCurrent();
@@ -114,7 +115,7 @@ internal sealed class FlyoutController : IDisposable
         _window = null;
         if (previous is null) return;
         previous.Deactivated -= DismissOnDeactivation;
-        previous.Close();
+        if (!previous.IsClosing) previous.Close();
     }
 
     public void Dispose()
@@ -128,23 +129,8 @@ internal sealed class FlyoutController : IDisposable
 
     private static Icon CreateIcon()
     {
-        using var bitmap = new Bitmap(32, 32);
-        using var graphics = Graphics.FromImage(bitmap);
-        graphics.SmoothingMode = SmoothingMode.AntiAlias;
-        using var background = new SolidBrush(Color.FromArgb(38, 83, 158));
-        using var stroke = new Pen(Color.White, 2.5f) { StartCap = LineCap.Round, EndCap = LineCap.Round };
-        graphics.FillEllipse(background, 1, 1, 30, 30);
-        graphics.DrawArc(stroke, 8, 7, 16, 17, 180, 180);
-        graphics.DrawLine(stroke, 8, 15, 8, 22);
-        graphics.DrawLine(stroke, 24, 15, 24, 22);
-        graphics.FillRectangle(Brushes.White, 9, 17, 4, 7);
-        graphics.FillRectangle(Brushes.White, 19, 17, 4, 7);
-        var handle = bitmap.GetHicon();
-        using var temporary = Icon.FromHandle(handle);
-        try { return (Icon)temporary.Clone(); }
-        finally { DestroyIcon(handle); }
+        using var resource = Application.GetResourceStream(new Uri("pack://application:,,,/Resources/Headphones.ico")).Stream;
+        using var icon = new Icon(resource, Forms.SystemInformation.SmallIconSize);
+        return (Icon)icon.Clone();
     }
-
-    [DllImport("user32.dll")]
-    private static extern bool DestroyIcon(IntPtr handle);
 }

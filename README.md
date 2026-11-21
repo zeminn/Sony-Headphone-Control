@@ -1,6 +1,8 @@
-- # Sony 耳机浮窗（SonyHeadphonesFlyout）
+# Sony Headphone Control
 
-  SonyHeadphonesFlyout 是一款基于 FluentFlyout 设计风格的 Windows 11 系统托盘应用，用于在电脑上快速控制兼容的 Sony 蓝牙耳机。
+Powered by [FluentFlyout](https://github.com/unchihugo/FluentFlyout) and [SonyHeadphonesClient](https://github.com/Plutoberth/SonyHeadphonesClient).
+
+  Sony Headphone Control 是一款基于 FluentFlyout 设计风格的 Windows 11 系统托盘应用，用于在电脑上快速控制兼容的 Sony 蓝牙耳机。
 
   应用采用 Windows 11 Fluent 风格界面，支持从任务栏系统托盘打开浮窗，无需使用手机即可调整耳机的降噪、环境声和虚拟环绕（VPT）等功能。
 
@@ -64,7 +66,7 @@
   进入本仓库的 **Releases** 页面，下载最新的 Windows x64 发布版本：
 
   ```
-  SonyHeadphonesFlyout-win-x64.zip
+  Sony Headphone Control-win-x64.zip
   ```
 
   ### 2. 解压程序
@@ -76,7 +78,7 @@
   运行：
 
   ```
-  SonyHeadphonesFlyout.exe
+  Sony Headphone Control.exe
   ```
 
   发布版本自带所需的 .NET 运行时组件，无需用户另外安装对应版本的 .NET Runtime。
@@ -286,12 +288,12 @@
   确保项目目录中至少包含：
 
   ```
-  SonyHeadphonesFlyout/
+  Sony-Headphone-Control/
   ├── README.md
   ├── app/
   │   ├── LICENSE
-  │   └── SonyHeadphonesFlyout/
-  │       ├── SonyHeadphonesFlyout.csproj
+  │   └── SonyHeadphoneControl/
+  │       ├── Sony Headphone Control.csproj
   │       ├── App.xaml
   │       ├── App.xaml.cs
   │       ├── Native/
@@ -335,19 +337,19 @@
   执行：
 
   ```
-  dotnet build .\app\SonyHeadphonesFlyout\SonyHeadphonesFlyout.csproj -c Debug "-p:SonyClang=$clang"
+  dotnet build ".\app\SonyHeadphoneControl\Sony Headphone Control.csproj" -c Debug "-p:SonyClang=$clang"
   ```
 
   编译成功后，Debug 版本通常位于：
 
   ```
-  app/SonyHeadphonesFlyout/bin/Debug/net10.0-windows10.0.22000.0/
+  app/SonyHeadphoneControl/bin/Debug/net10.0-windows10.0.22000.0/
   ```
 
   可以运行其中的：
 
   ```
-  SonyHeadphonesFlyout.exe
+  Sony Headphone Control.exe
   ```
 
   进行功能测试。
@@ -357,19 +359,19 @@
   执行：
 
   ```
-  dotnet publish .\app\SonyHeadphonesFlyout\SonyHeadphonesFlyout.csproj -c Release -r win-x64 --self-contained true "-p:SonyClang=$clang" -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -p:DebugType=embedded -o .\dist\SonyHeadphonesFlyout-win-x64
+  dotnet publish ".\app\SonyHeadphoneControl\Sony Headphone Control.csproj" -c Release -r win-x64 --self-contained true "-p:SonyClang=$clang" -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -p:DebugType=embedded -o ".\dist\Sony Headphone Control-win-x64"
   ```
 
   发布完成后，输出目录为：
 
   ```
-  dist/SonyHeadphonesFlyout-win-x64/
+  dist/Sony Headphone Control-win-x64/
   ```
 
   其中：
 
   ```
-  SonyHeadphonesFlyout.exe
+  Sony Headphone Control.exe
   ```
 
   为自包含的 Windows x64 可执行程序。
@@ -444,7 +446,7 @@
   请检查网络连接，并尝试：
 
   ```
-  dotnet restore .\app\SonyHeadphonesFlyout\SonyHeadphonesFlyout.csproj
+  dotnet restore ".\app\SonyHeadphoneControl\Sony Headphone Control.csproj"
   ```
 
   之后重新执行构建命令。
@@ -456,7 +458,7 @@
   主要代码位于：
 
   ```
-  app/SonyHeadphonesFlyout/
+  app/SonyHeadphoneControl/
   ```
 
   ### 主要文件
@@ -491,11 +493,26 @@
 
   ### VS Code 调试
 
-  如果希望使用 `F5` 进行调试，需要安装适当的 C# 调试扩展，并配置项目启动方式。
+  在 VS Code 中打开仓库根目录，安装 C# 调试扩展后，按 `F5` 并选择「Sony Headphone Control · 真实设备」。仓库内的 `.vscode` 配置会先构建项目，再以 `--show` 启动浮窗。
 
-  独立源码发布包不保证包含原开发环境的 `.vscode/launch.json` 和 `tasks.json`。
+  构建使用系统安装的 .NET SDK 和用户目录下的 NuGet 缓存。LLVM-MinGW 的默认位置为 `%USERPROFILE%\Tools\llvm-mingw-20261104-ucrt-x86_64\bin\clang++.exe`。使用其他位置时，可按上面的命令传入 `SonyClang`，或设置同名环境变量。
 
-  因此，若编辑器中没有出现预设的启动选项，请先按照上述命令行方式编译运行，或者自行配置 VS Code 调试任务。
+  ## 验证与便携版打包
+
+  在仓库根目录使用 PowerShell 7.3 或更新版本执行。
+
+  ```powershell
+  # 运行协议回环测试和界面回归检查，界面检查需要 Windows 蓝牙适配器。
+  .\scripts\Test.ps1
+
+  # 生成自包含便携版文件夹，同时更新 Source.zip 和许可证。
+  .\scripts\Package.ps1
+
+  # 生成便携版文件夹及可发送给朋友的 ZIP。
+  .\scripts\Package.ps1 -Zip
+  ```
+
+  两个脚本都支持 `-SonyClang` 参数。便携版输出位于 `dist/Sony Headphone Control-win-x64`。调试与发布产物、工具目录和缓存已由 `.gitignore` 排除。
 
   ## 上游项目与技术来源
 
@@ -536,7 +553,7 @@
   相关的协议封包源码和 MIT 许可证保留在：
 
   ```
-  app/SonyHeadphonesFlyout/Native/Upstream/
+  app/SonyHeadphoneControl/Native/Upstream/
   ```
 
   ### Noto Sans SC
@@ -592,8 +609,8 @@
   相关许可证文件位于：
 
   - `app/LICENSE`
-  - `app/SonyHeadphonesFlyout/Native/Upstream/LICENSE`
-  - `app/SonyHeadphonesFlyout/Resources/Fonts/OFL.txt`
+  - `app/SonyHeadphoneControl/Native/Upstream/LICENSE`
+  - `app/SonyHeadphoneControl/Resources/Fonts/OFL.txt`
 
   Windows 发布版本的 `licenses` 目录包含随软件分发的第三方许可信息。
 

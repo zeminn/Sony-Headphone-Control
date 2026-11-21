@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
-namespace SonyHeadphonesFlyout;
+namespace SonyHeadphoneControl;
 
 internal sealed record AmbientSetting(AmbientMode Mode, int Level, bool VoiceFocus);
 
@@ -15,6 +15,7 @@ internal sealed class HeadphoneSettingsStore
 {
     private readonly string _path;
     private readonly Dictionary<ulong, HeadphoneSettings> _settings;
+    private bool _dirty;
 
     public HeadphoneSettingsStore(string? path = null)
     {
@@ -56,8 +57,10 @@ internal sealed class HeadphoneSettingsStore
 
     private void Save(ulong address, HeadphoneSettings settings)
     {
-        if (Get(address) == settings) return;
+        bool changed = Get(address) != settings;
+        if (!changed && !_dirty) return;
         _settings[address] = settings;
+        _dirty = true;
 
         try
         {
@@ -65,12 +68,13 @@ internal sealed class HeadphoneSettingsStore
             string temporary = _path + ".tmp";
             File.WriteAllText(temporary, JsonSerializer.Serialize(_settings));
             File.Move(temporary, _path, overwrite: true);
+            _dirty = false;
         }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException)
         {
             // Keep confirmed settings available during this app session if disk storage is unavailable.
         }
 
-        Changed?.Invoke(address);
+        if (changed) Changed?.Invoke(address);
     }
 }

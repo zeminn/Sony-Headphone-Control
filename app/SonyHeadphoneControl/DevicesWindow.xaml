@@ -1,9 +1,9 @@
-<local:FlyoutWindow x:Class="SonyHeadphonesFlyout.DevicesWindow" x:ClassModifier="internal"
+<local:FlyoutWindow x:Class="SonyHeadphoneControl.DevicesWindow" x:ClassModifier="internal"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-                    xmlns:local="clr-namespace:SonyHeadphonesFlyout"
-                    Title="Sony 耳机 · 设备">
+                    xmlns:local="clr-namespace:SonyHeadphoneControl"
+                    Title="Sony Headphone Control · 设备">
     <ContentControl Template="{StaticResource CoverGlowSurface}" Focusable="False">
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <StackPanel Margin="18">
@@ -20,7 +20,7 @@
                                        HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="Sony 耳机" Style="{StaticResource FlyoutTitle}" />
+                        <TextBlock Text="Sony Headphone Control" Style="{StaticResource FlyoutTitle}" FontSize="14" />
                         <TextBlock x:Name="Subtitle" Text="正在查找设备…" Style="{StaticResource SecondaryText}" Margin="0,2,0,0" />
                     </StackPanel>
                     <ui:Button x:Name="RefreshButton" Grid.Column="2" Appearance="Transparent" Margin="4,0,4,0"
