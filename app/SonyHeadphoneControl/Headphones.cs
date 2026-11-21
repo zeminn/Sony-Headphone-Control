@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace SonyHeadphonesFlyout;
+namespace SonyHeadphoneControl;
 
 internal enum AmbientMode { NoiseCancelling, Ambient, Off }
 

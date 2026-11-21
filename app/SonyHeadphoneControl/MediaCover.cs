@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using Windows.Media.Control;
 
-namespace SonyHeadphonesFlyout;
+namespace SonyHeadphoneControl;
 
 internal static class MediaCover
 {

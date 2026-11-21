@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0-windows10.0.22000.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <StartupObject>SonyHeadphoneControl.UiCheck</StartupObject>
+    <ProductDir>..\..\app\SonyHeadphoneControl</ProductDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(ProductDir)\Sony Headphone Control.csproj" ReferenceOutputAssembly="false" />
+    <PackageReference Include="MicaWPF" Version="6.3.2" />
+    <PackageReference Include="unchihugo.WPF-UI" Version="4.4.2" />
+    <Compile Include="$(ProductDir)\*.cs" />
+    <ApplicationDefinition Include="$(ProductDir)\App.xaml" Link="App.xaml" />
+    <Page Include="$(ProductDir)\*Window.xaml" Link="%(Filename)%(Extension)" />
+    <Resource Include="$(ProductDir)\Resources\Fonts\*.otf" Link="Resources\Fonts\%(Filename)%(Extension)" />
+    <Resource Include="$(ProductDir)\Resources\Headphones.ico" Link="Resources\Headphones.ico" />
+    <None Include="$(ProductDir)\obj\$(Configuration)\native\SonyTransport.dll" Link="SonyTransport.dll" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

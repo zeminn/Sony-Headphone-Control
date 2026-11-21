@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Sony Headphone Control · 真实设备",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Build Sony Headphone Control",
+      "program": "${workspaceFolder}/app/SonyHeadphoneControl/bin/Debug/net10.0-windows10.0.22000.0/Sony Headphone Control.exe",
+      "cwd": "${workspaceFolder}/app/SonyHeadphoneControl/bin/Debug/net10.0-windows10.0.22000.0",
+      "args": ["--show"]
+    }
+  ]
+}

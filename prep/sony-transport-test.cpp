@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "../app/SonyHeadphonesFlyout/Native/SonyTransport.cpp"
+#include "../app/SonyHeadphoneControl/Native/SonyTransport.cpp"
 
 #include <array>
 #include <future>

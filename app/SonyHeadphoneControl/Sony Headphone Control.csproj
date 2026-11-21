@@ -1,6 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <AssemblyName>Sony Headphone Control</AssemblyName>
+    <RootNamespace>SonyHeadphoneControl</RootNamespace>
+    <Product>Sony Headphone Control</Product>
+    <AssemblyTitle>Sony Headphone Control</AssemblyTitle>
+    <Description>Sony Headphone Control</Description>
     <TargetFramework>net10.0-windows10.0.22000.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
@@ -9,9 +14,10 @@
     <PlatformTarget>x64</PlatformTarget>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Resources\Headphones.ico</ApplicationIcon>
     <!-- The manifest sets process DPI before WPF creates an HWND. WinForms supplies only the tray. -->
     <NoWarn>$(NoWarn);WFO0003</NoWarn>
-    <SonyClang Condition="'$(SonyClang)' == ''">$(MSBuildProjectDirectory)\..\..\.tools\llvm-mingw-20261104-ucrt-x86_64\bin\clang++.exe</SonyClang>
+    <SonyClang Condition="'$(SonyClang)' == ''">$(USERPROFILE)\Tools\llvm-mingw-20261104-ucrt-x86_64\bin\clang++.exe</SonyClang>
     <SonyNativeOutput>$(MSBuildProjectDirectory)\obj\$(Configuration)\native\SonyTransport.dll</SonyNativeOutput>
   </PropertyGroup>
   <ItemGroup>
@@ -20,11 +26,13 @@
     <NativeSource Include="Native\**\*.cpp" />
     <NativeHeader Include="Native\**\*.h" />
     <Resource Include="Resources\Fonts\*.otf" />
+    <Resource Include="Resources\Headphones.ico" />
     <None Include="$(SonyNativeOutput)" Link="SonyTransport.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <None Include="..\LICENSE" Link="licenses\FluentFlyout.txt" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
     <None Update="Native\Upstream\LICENSE" Link="licenses\SonyHeadphonesClient.txt" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
     <None Update="Resources\Fonts\OFL.txt" Link="licenses\NotoSansSC-OFL.txt" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
     <None Update="使用说明.txt" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <None Include="..\..\licenses\*.txt" Link="licenses\%(Filename)%(Extension)" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
   </ItemGroup>
   <Target Name="BuildSonyTransport" BeforeTargets="PrepareForBuild"
           Condition="'$(DesignTimeBuild)' != 'true'"

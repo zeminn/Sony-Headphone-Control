@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows;
 using Wpf.Ui.Appearance;
 
-namespace SonyHeadphonesFlyout;
+namespace SonyHeadphoneControl;
 
 public partial class App : Application
 {

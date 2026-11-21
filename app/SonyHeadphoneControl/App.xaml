@@ -1,9 +1,9 @@
-<Application x:Class="SonyHeadphonesFlyout.App"
+<Application x:Class="SonyHeadphoneControl.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mica="clr-namespace:MicaWPF.Styles;assembly=MicaWPF"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             xmlns:local="clr-namespace:SonyHeadphonesFlyout"
+             xmlns:local="clr-namespace:SonyHeadphoneControl"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>

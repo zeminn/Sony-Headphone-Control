@@ -4,6 +4,7 @@
 using MicaWPF.Controls;
 using MicaWPF.Core.Enums;
 using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,10 +15,12 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using Rectangle = System.Drawing.Rectangle;
 
-namespace SonyHeadphonesFlyout;
+namespace SonyHeadphoneControl;
 
 public class FlyoutWindow : MicaWindow
 {
+    internal bool IsClosing { get; private set; }
+
     private static readonly DependencyPropertyKey CoverArtworkPropertyKey = DependencyProperty.RegisterReadOnly(
         nameof(CoverArtwork), typeof(ImageSource), typeof(FlyoutWindow), new PropertyMetadata(null));
     public static readonly DependencyProperty CoverArtworkProperty = CoverArtworkPropertyKey.DependencyProperty;
@@ -103,6 +106,13 @@ public class FlyoutWindow : MicaWindow
         }
         catch (OperationCanceledException) when (load.IsCancellationRequested) { }
         finally { _coverLoad = null; }
+    }
+
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        IsClosing = true;
+        base.OnClosing(e);
+        if (e.Cancel) IsClosing = false;
     }
 
     protected override void OnClosed(EventArgs e)
